@@ -1,0 +1,25 @@
+# Ignore Alfred Workflow-specific files (in the current directory)
+prefs.plist
+AlfredConfig.plist
+.alfred_workflow_cache
+.apple_script_cache
+.DS_Store
+.vscode/
+.idea/
+
+# Ignore Python-specific files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+env/
+venv/
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+*.bak
+*.swp
+.Python
+
