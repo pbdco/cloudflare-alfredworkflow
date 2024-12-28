@@ -42,7 +42,7 @@ jobs:
           if [ -f prefs.plist ]; then cp prefs.plist workflow/; fi
 
       - name: Build Alfred workflow
-        uses: com30n/build-alfred-workflow@v1.0.0
+        uses: com30n/build-alfred-workflow@v1.2.3
         with:
           workflow_dir: workflow
           output_file: Cloudflare.alfredworkflow
