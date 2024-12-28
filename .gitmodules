@@ -1,0 +1,4 @@
+[submodule "cloudflare-python"]
+	path = cloudflare-python
+	url = git@github.com:pbdco/cloudflare-python.git
+	branch = main
