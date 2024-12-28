@@ -26,23 +26,15 @@ jobs:
         run: |
           cd cloudflare-python
           python -m pip install --upgrade pip
-          pip install pyinstaller
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Build executable
-        run: |
-          cd cloudflare-python
-          # Add encoding declaration to the script
-          sed -i '1i# -*- coding: utf-8 -*-' cloudflare.py
-          # Build with explicit UTF-8 encoding
-          PYTHONIOENCODING=utf8 pyinstaller --onefile cloudflare.py
-          # Make the binary executable
-          chmod +x dist/cloudflare
 
       - name: Prepare workflow structure
         run: |
           mkdir -p workflow/cloudflare-python
-          cp cloudflare-python/dist/cloudflare workflow/cloudflare-python/
+          # Add shebang and encoding to the script
+          echo '#!/usr/bin/env python3' > workflow/cloudflare-python/cloudflare
+          echo '# -*- coding: utf-8 -*-' >> workflow/cloudflare-python/cloudflare
+          cat cloudflare-python/cloudflare.py >> workflow/cloudflare-python/cloudflare
           chmod +x workflow/cloudflare-python/cloudflare
           cp info.plist workflow/
           if [ -f prefs.plist ]; then cp prefs.plist workflow/; fi

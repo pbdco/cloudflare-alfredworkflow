@@ -128,7 +128,7 @@
 	<key>description</key>
 	<string></string>
 	<key>disabled</key>
-	<true/>
+	<false/>
 	<key>name</key>
 	<string>Clouflare Create</string>
 	<key>objects</key>
@@ -267,7 +267,8 @@ set -xe
 
 # Activate virtual environment
 
-source "./cloudflare-python/venv/bin/activate"
+# For development
+# source "./cloudflare-python/venv/bin/activate"
  
 if [[ "$action" == "delete" ]]; then
     # If delete, avoid ip variable
@@ -277,7 +278,11 @@ else
 	iparg="-i $ip"
 fi
 
-python "./cloudflare-python/cloudflare.py" "$action" -s "$subdomain" -d "$domain" $iparg
+# For development
+# python "./cloudflare-python/cloudflare.py" "$action" -s "$subdomain" -d "$domain" $iparg
+
+# Use bundled executable
+python "./cloudflare-python/cloudflare" "$action" -s "$subdomain" -d "$domain" $iparg
 
 # Pass the python script output to workflow variable to Alfred
 #echo -n "{\"variables\": {\"response\": \"$pythonresponse\"}}"</string>
