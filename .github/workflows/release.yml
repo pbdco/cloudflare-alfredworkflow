@@ -31,7 +31,7 @@ jobs:
       - name: Prepare workflow structure
         run: |
           mkdir -p workflow/cloudflare-python
-          # Add shebang and encoding to the script
+          # Add shebang and encoding to the script.
           echo '#!/usr/bin/env python3' > workflow/cloudflare-python/cloudflare
           echo '# -*- coding: utf-8 -*-' >> workflow/cloudflare-python/cloudflare
           cat cloudflare-python/cloudflare.py >> workflow/cloudflare-python/cloudflare
