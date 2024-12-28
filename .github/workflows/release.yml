@@ -42,6 +42,7 @@ jobs:
           if [ -f prefs.plist ]; then cp prefs.plist workflow/; fi
 
       - name: Build Alfred workflow
+        id: alfred_builder
         uses: com30n/build-alfred-workflow@v1.2.3
         with:
           workflow_dir: workflow
@@ -50,5 +51,5 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: Cloudflare.alfredworkflow
+          files: ${{ steps.alfred_builder.outputs.workflow_file }}
           generate_release_notes: true 
