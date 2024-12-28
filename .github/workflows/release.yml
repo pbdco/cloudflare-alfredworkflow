@@ -1,0 +1,54 @@
+name: Release Alfred Workflow
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          cd cloudflare-python
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Build executable
+        run: |
+          cd cloudflare-python
+          pyinstaller --onefile cloudflare.py
+
+      - name: Prepare workflow structure
+        run: |
+          mkdir -p workflow/cloudflare-python
+          cp cloudflare-python/dist/cloudflare workflow/cloudflare-python/
+          cp info.plist workflow/
+          if [ -f prefs.plist ]; then cp prefs.plist workflow/; fi
+
+      - name: Build Alfred workflow
+        uses: com30n/build-alfred-workflow@v1.0.0
+        with:
+          workflow_dir: workflow
+          output_file: Cloudflare.alfredworkflow
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: Cloudflare.alfredworkflow
+          generate_release_notes: true 
