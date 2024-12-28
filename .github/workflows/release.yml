@@ -32,12 +32,18 @@ jobs:
       - name: Build executable
         run: |
           cd cloudflare-python
-          pyinstaller --onefile cloudflare.py
+          # Add encoding declaration to the script
+          sed -i '1i# -*- coding: utf-8 -*-' cloudflare.py
+          # Build with explicit UTF-8 encoding
+          PYTHONIOENCODING=utf8 pyinstaller --onefile cloudflare.py
+          # Make the binary executable
+          chmod +x dist/cloudflare
 
       - name: Prepare workflow structure
         run: |
           mkdir -p workflow/cloudflare-python
           cp cloudflare-python/dist/cloudflare workflow/cloudflare-python/
+          chmod +x workflow/cloudflare-python/cloudflare
           cp info.plist workflow/
           if [ -f prefs.plist ]; then cp prefs.plist workflow/; fi
 
