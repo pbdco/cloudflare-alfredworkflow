@@ -27,22 +27,27 @@ An Alfred workflow to quickly create and delete DNS records in Cloudflare direct
 ```
 cfcreate {subdomain} {domain} {value} [proxy]
 ```
-The value can optionally include a record type prefix (e.g., `a:` or `cname:`). If no type is specified, an A record is created.
+
+The `value` parameter can include an optional record type prefix. Currently supported record types:
+- `A` records (default): Use IP address as value
+- `CNAME` records: Use target domain as value
+
+If no record type is specified, an A record is created by default.
 
 Examples:
 ```
-# A Records (all equivalent)
-cfcreate blog example.com 192.168.1.1        # A record (default)
+# A Records (all these are equivalent)
+cfcreate blog example.com 192.168.1.1        # A record (implicit)
 cfcreate blog example.com a:192.168.1.1      # A record (explicit)
 cfcreate blog example.com A:192.168.1.1      # A record (explicit)
 
 # CNAME Records
 cfcreate blog example.com cname:target.com    # CNAME record
-cfcreate blog example.com CNAME:target.com    # CNAME record
+cfcreate blog example.com CNAME:target.com    # CNAME record (case insensitive)
 
-# With Proxy Enabled
-cfcreate blog example.com 192.168.1.1 proxy        # A record with proxy
-cfcreate blog example.com cname:target.com proxy   # CNAME record with proxy
+# With Cloudflare Proxy (Orange Cloud)
+cfcreate blog example.com 192.168.1.1 proxy         # A record with proxy
+cfcreate blog example.com cname:target.com proxy    # CNAME record with proxy
 ```
 
 ### Delete DNS Record
@@ -53,7 +58,7 @@ Example:
 ```
 cfdelete blog example.com
 ```
-This will delete the DNS record for `blog.example.com`
+This will delete any DNS record (A or CNAME) for `blog.example.com`
 
 ## Getting a Cloudflare API Token
 

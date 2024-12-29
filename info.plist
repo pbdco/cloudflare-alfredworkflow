@@ -128,7 +128,7 @@
 	<key>description</key>
 	<string></string>
 	<key>disabled</key>
-	<true/>
+	<false/>
 	<key>name</key>
 	<string>Clouflare Create</string>
 	<key>objects</key>
