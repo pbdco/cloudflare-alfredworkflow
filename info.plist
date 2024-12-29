@@ -128,9 +128,9 @@
 	<key>description</key>
 	<string></string>
 	<key>disabled</key>
-	<true/>
+	<false/>
 	<key>name</key>
-	<string>Clouflare Create MASTER</string>
+	<string>Clouflare Create</string>
 	<key>objects</key>
 	<array>
 		<dict>
