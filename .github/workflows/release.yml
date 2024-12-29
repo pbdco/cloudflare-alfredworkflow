@@ -36,10 +36,11 @@ jobs:
           find . -type f -name "*.pyo" -delete
           find . -type f -name "*.dist-info" -exec rm -r {} +
           find . -type f -name "*.egg-info" -exec rm -r {} +
-          
-          # Copy info.plist
           cd ../..
+          
+          # Copy workflow files
           cp info.plist workflow/
+          cp icon.png workflow/  # Copy the icon
 
       - name: Create workflow archive
         run: |
