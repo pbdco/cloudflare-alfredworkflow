@@ -17,23 +17,14 @@ jobs:
         with:
           submodules: true
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-
       - name: Prepare workflow structure
         run: |
           # Create workflow directory
           mkdir -p workflow/cloudflare-python
           
-          # Copy info.plist
-          cp info.plist workflow/
-          
-          # Add shebang and make executable
-          echo '#!/usr/bin/env python3' > workflow/cloudflare-python/cloudflare
-          cat cloudflare-python/cloudflare.py >> workflow/cloudflare-python/cloudflare
-          chmod +x workflow/cloudflare-python/cloudflare
+          # Copy Python script and make executable
+          cp cloudflare-python/cloudflare.py workflow/cloudflare-python/
+          chmod +x workflow/cloudflare-python/cloudflare.py
           
           # Install dependencies directly in the workflow directory
           cd workflow/cloudflare-python
@@ -45,6 +36,10 @@ jobs:
           find . -type f -name "*.pyo" -delete
           find . -type f -name "*.dist-info" -exec rm -r {} +
           find . -type f -name "*.egg-info" -exec rm -r {} +
+          
+          # Copy info.plist
+          cd ../..
+          cp info.plist workflow/
 
       - name: Create workflow archive
         run: |
