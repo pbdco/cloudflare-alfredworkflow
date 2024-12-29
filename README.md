@@ -2,7 +2,7 @@
 
 An Alfred workflow to quickly create and delete DNS records in Cloudflare directly from Alfred.
 
-** Download here: [Cloudflare Alfred Workflow Download](https://github.com/pbdco/cloudflare-alfredworkflow/releases/latest/download/Cloudflare.alfredworkflow) **
+**Download here: [Cloudflare Alfred Workflow Download](https://github.com/pbdco/cloudflare-alfredworkflow/releases/latest/download/Cloudflare.alfredworkflow)**
 
 ## Requirements
 
