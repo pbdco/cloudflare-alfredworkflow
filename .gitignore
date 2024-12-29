@@ -23,3 +23,9 @@ build/
 *.swp
 .Python
 
+# PyInstaller
+build/
+*.spec
+dist/*
+!dist/cloudflare
+

@@ -130,7 +130,7 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Clouflare Create</string>
+	<string>Clouflare Create [BUNDLE Version]</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -145,7 +145,7 @@
 				<key>text</key>
 				<string>Error: missing argument</string>
 				<key>title</key>
-				<string>Cloudflare Create</string>
+				<string>Cloudflare Create [BUNDLE Version]</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
@@ -265,41 +265,26 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>#!/bin/bash
-set -xe
 
-if [[ "$action" == "delete" ]]; then
-    # If delete, avoid value/type arguments
-    valuearg=""
-    typearg=""
-else
-    # Parse the record type and value from ip variable
-    if [[ "$ip" =~ ^([A-Za-z]+): ]]; then
-        # Type prefix found (e.g., "cname:" or "a:")
-        record_type="${BASH_REMATCH[1]}"
-        record_value="${ip#*:}"
-    else
-        # No type prefix, assume A record
-        record_type="A"
-        record_value="$ip"
-    fi
-    
-    # Convert type to uppercase
-    record_type=$(echo "$record_type" | tr '[:lower:]' '[:upper:]')
-    
-    valuearg="-v $record_value"
-    typearg="-t $record_type"
-    
-    # Add proxy flag if proxy variable exists
-    if [[ -n "$proxy" ]]; then
-        valuearg="$valuearg -p"
-    fi
+# Path to the bundled executable
+cloudflare_exe="./cloudflare-python/dist/cloudflare"
+
+# Ensure executable permissions
+chmod +x "$cloudflare_exe"
+
+# Get the query from Alfred
+query=$1
+
+# Extract domain and subdomain from query
+IFS=' ' read -r subdomain domain &lt;&lt;&lt; "$query"
+
+if [[ -z "$subdomain" || -z "$domain" ]]; then
+    echo "Please provide both subdomain and domain"
+    exit 1
 fi
 
-# Set PYTHONPATH to include bundled dependencies
-export PYTHONPATH="$PWD/cloudflare-python:$PYTHONPATH"
-
-# Run the Python script directly
-python3 "./cloudflare-python/cloudflare.py" "$action" -s "$subdomain" -d "$domain" $typearg $valuearg</string>
+# Execute the bundled script
+"$cloudflare_exe" create -s "$subdomain" -d "$domain" -i "{query:ip}"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
