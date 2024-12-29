@@ -5,46 +5,56 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          python-version: '3.x'
-          
+          submodules: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
       - name: Install dependencies
         run: |
           cd cloudflare-python
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pyinstaller
-          
+          pip install pyinstaller requests python-dotenv
+
       - name: Build executable
         run: |
           cd cloudflare-python
-          pyinstaller --onefile cloudflare.py
-          
+          # Add encoding declaration to the script (macOS version)
+          sed -i '' '1i\
+          # -*- coding: utf-8 -*-
+          ' cloudflare.py
+          # Build with explicit UTF-8 encoding
+          PYTHONIOENCODING=utf8 pyinstaller --onefile cloudflare.py
+          # Make the binary executable
+          chmod +x dist/cloudflare
+
+      - name: Prepare workflow structure
+        run: |
+          mkdir -p workflow/cloudflare-python/dist
+          cp cloudflare-python/dist/cloudflare workflow/cloudflare-python/dist/
+          chmod +x workflow/cloudflare-python/dist/cloudflare
+          cp info.plist workflow/
+          cp icon.png workflow/
+
+      - name: Create workflow archive
+        run: |
+          cd workflow
+          zip -r ../Cloudflare-create.alfredworkflow ./*
+
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref_name }}-bundle
-          draft: false
-          prerelease: false
-          
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./cloudflare-python/dist/cloudflare
-          asset_name: cloudflare
-          asset_content_type: application/octet-stream 
+          name: ${{ github.ref_name }}-bundle
+          files: Cloudflare-create.alfredworkflow 
