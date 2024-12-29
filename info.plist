@@ -128,7 +128,7 @@
 	<key>description</key>
 	<string></string>
 	<key>disabled</key>
-	<true/>
+	<false/>
 	<key>name</key>
 	<string>Clouflare Create</string>
 	<key>objects</key>
@@ -243,6 +243,8 @@
 					<string>{var:split2}</string>
 					<key>ip</key>
 					<string>{var:split3}</string>
+					<key>proxy</key>
+					<string>{var:split4}</string>
 					<key>subdomain</key>
 					<string>{var:split1}</string>
 				</dict>
