@@ -190,13 +190,13 @@
 						<key>matchstring</key>
 						<string></string>
 						<key>outputlabel</key>
-						<string>MISSING IP</string>
+						<string>MISSING ARG</string>
 						<key>uid</key>
 						<string>FEC75CD7-1CE2-47DE-AF25-A3385DC11223</string>
 					</dict>
 				</array>
 				<key>elselabel</key>
-				<string>IP OK</string>
+				<string>OK</string>
 				<key>hideelse</key>
 				<false/>
 			</dict>
@@ -268,15 +268,30 @@
 set -xe
 
 if [[ "$action" == "delete" ]]; then
-    # If delete, avoid ip variable
-    iparg=""
+    # If delete, avoid value/type arguments
+    valuearg=""
+    typearg=""
 else
-    # If create, set iparg
-    iparg="-i $ip"
+    # Parse the record type and value from ip variable
+    if [[ "$ip" =~ ^([A-Za-z]+): ]]; then
+        # Type prefix found (e.g., "cname:" or "a:")
+        record_type="${BASH_REMATCH[1]}"
+        record_value="${ip#*:}"
+    else
+        # No type prefix, assume A record
+        record_type="A"
+        record_value="$ip"
+    fi
+    
+    # Convert type to uppercase
+    record_type=$(echo "$record_type" | tr '[:lower:]' '[:upper:]')
+    
+    valuearg="-v $record_value"
+    typearg="-t $record_type"
     
     # Add proxy flag if proxy variable exists
     if [[ -n "$proxy" ]]; then
-        iparg="$iparg -p"
+        valuearg="$valuearg -p"
     fi
 fi
 
@@ -284,7 +299,7 @@ fi
 export PYTHONPATH="$PWD/cloudflare-python:$PYTHONPATH"
 
 # Run the Python script directly
-python3 "./cloudflare-python/cloudflare.py" "$action" -s "$subdomain" -d "$domain" $iparg</string>
+python3 "./cloudflare-python/cloudflare.py" "$action" -s "$subdomain" -d "$domain" $typearg $valuearg</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
