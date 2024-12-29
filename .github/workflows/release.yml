@@ -22,35 +22,24 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Install dependencies
-        run: |
-          cd cloudflare-python
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pyinstaller
-
-      - name: Build executable
-        run: |
-          cd cloudflare-python
-          pyinstaller --onefile --collect-all requests cloudflare.py
-
       - name: Prepare workflow structure
         run: |
           mkdir -p workflow/cloudflare-python
-          cp cloudflare-python/dist/cloudflare workflow/cloudflare-python/
+          # Add shebang and make executable
+          echo '#!/usr/bin/env python3' > workflow/cloudflare-python/cloudflare
+          cat cloudflare-python/cloudflare.py >> workflow/cloudflare-python/cloudflare
           chmod +x workflow/cloudflare-python/cloudflare
-          cp info.plist workflow/
-          if [ -f prefs.plist ]; then cp prefs.plist workflow/; fi
+          # Install dependencies directly in the workflow directory
+          cd workflow/cloudflare-python
+          pip install --target=. requests
 
-      - name: Build Alfred workflow
-        id: alfred_builder
-        uses: com30n/build-alfred-workflow@v1.2.3
-        with:
-          workflow_dir: workflow
-          output_file: Cloudflare.alfredworkflow
+      - name: Create workflow archive
+        run: |
+          cd workflow
+          zip -r ../Cloudflare.alfredworkflow ./*
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ steps.alfred_builder.outputs.workflow_file }}
+          files: Cloudflare.alfredworkflow
           generate_release_notes: true 

@@ -130,7 +130,7 @@
 	<key>disabled</key>
 	<true/>
 	<key>name</key>
-	<string>Clouflare Create</string>
+	<string>Clouflare Create MASTER</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -273,8 +273,11 @@ else
     iparg="-i $ip"
 fi
 
-# Use the bundled executable
-"./cloudflare-python/cloudflare" "$action" -s "$subdomain" -d "$domain" $iparg</string>
+# Set PYTHONPATH to include bundled dependencies
+export PYTHONPATH="$PWD/cloudflare-python:$PYTHONPATH"
+
+# Run the Python script
+python3 "./cloudflare-python/cloudflare" "$action" -s "$subdomain" -d "$domain" $iparg</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
