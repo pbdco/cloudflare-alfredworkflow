@@ -267,42 +267,14 @@ set -xe
 
 if [[ "$action" == "delete" ]]; then
     # If delete, avoid ip variable
-	iparg=""
+    iparg=""
 else
-	# If create, set iparg
-	iparg="-i \"$ip\""
+    # If create, set iparg
+    iparg="-i $ip"
 fi
 
 # Use the bundled executable
-"./cloudflare-python/cloudflare" "$action" -s "$subdomain" -d "$domain" $iparg
-
-
-
-#########################
-#!/bin/bash
-#set -xe
-
-# Activate virtual environment
-
-# For development
-## source "./cloudflare-python/venv/bin/activate"
- 
-#if [[ "$action" == "delete" ]]; then
-    # If delete, avoid ip variable
-#	iparg=""
-#else
-	# If create, set iparg
-#	iparg="-i $ip"
-#fi
-
-# For development
-## python "./cloudflare-python/cloudflare.py" "$action" -s "$subdomain" -d "$domain" $iparg
-
-# Use bundled executable
-#python "./cloudflare-python/cloudflare" "$action" -s "$subdomain" -d "$domain" $iparg
-
-# Pass the python script output to workflow variable to Alfred
-#echo -n "{\"variables\": {\"response\": \"$pythonresponse\"}}"</string>
+"./cloudflare-python/cloudflare" "$action" -s "$subdomain" -d "$domain" $iparg</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
