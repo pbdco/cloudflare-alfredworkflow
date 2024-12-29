@@ -24,14 +24,27 @@ jobs:
 
       - name: Prepare workflow structure
         run: |
+          # Create workflow directory
           mkdir -p workflow/cloudflare-python
+          
+          # Copy info.plist
+          cp info.plist workflow/
+          
           # Add shebang and make executable
           echo '#!/usr/bin/env python3' > workflow/cloudflare-python/cloudflare
           cat cloudflare-python/cloudflare.py >> workflow/cloudflare-python/cloudflare
           chmod +x workflow/cloudflare-python/cloudflare
+          
           # Install dependencies directly in the workflow directory
           cd workflow/cloudflare-python
           pip install --target=. requests
+          
+          # Clean up unnecessary files
+          find . -type d -name "__pycache__" -exec rm -r {} +
+          find . -type f -name "*.pyc" -delete
+          find . -type f -name "*.pyo" -delete
+          find . -type f -name "*.dist-info" -exec rm -r {} +
+          find . -type f -name "*.egg-info" -exec rm -r {} +
 
       - name: Create workflow archive
         run: |
