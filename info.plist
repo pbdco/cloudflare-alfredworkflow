@@ -271,9 +271,14 @@ if [[ "$action" == "delete" ]]; then
 else
     # If create, set iparg
     iparg="-i $ip"
+    
+    # Add proxy flag if proxy variable exists
+    if [[ -n "$proxy" ]]; then
+        iparg="$iparg -p"
+    fi
 fi
 
-# Set PYTHONPATH to include bundled dependencies 
+# Set PYTHONPATH to include bundled dependencies
 export PYTHONPATH="$PWD/cloudflare-python:$PYTHONPATH"
 
 # Run the Python script directly

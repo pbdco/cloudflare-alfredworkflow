@@ -25,13 +25,15 @@ An Alfred workflow to quickly create and delete DNS records in Cloudflare direct
 
 ### Create DNS Record
 ```
-cfcreate {subdomain} {domain} {ip}
+cfcreate {subdomain} {domain} {ip} [proxy]
 ```
-Example:
+Examples:
 ```
-cfcreate blog example.com 192.168.1.1
+cfcreate blog example.com 192.168.1.1      # Creates record with proxy disabled
+cfcreate blog example.com 192.168.1.1 proxy # Creates record with proxy enabled
 ```
-This will create an A record for `blog.example.com` pointing to `192.168.1.1`
+This will create an A record for `blog.example.com` pointing to `192.168.1.1`. 
+Adding the optional `proxy` parameter will enable Cloudflare's proxy features (orange cloud).
 
 ### Delete DNS Record
 ```
