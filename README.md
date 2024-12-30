@@ -10,6 +10,8 @@ An [Alfred](https://alfred.app/) workflow to quickly create and delete DNS recor
 - Creating a CNAME record with proxy enabled:
 ![image](https://github.com/user-attachments/assets/e136102f-10be-4cf3-bd65-dc347fbbd1e1)
 
+- Delete record:
+![image](https://github.com/user-attachments/assets/628d4240-4776-492e-a571-3c8582e20c34)
 
 ## Requirements
 
