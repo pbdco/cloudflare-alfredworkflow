@@ -4,6 +4,13 @@ An Alfred workflow to quickly create and delete DNS records in Cloudflare direct
 
 **Download here: [Cloudflare Alfred Workflow Download](https://github.com/pbdco/cloudflare-alfredworkflow/releases/latest/download/Cloudflare.alfredworkflow)**
 
+- Creating an A record, with disabled proxy:
+![image](https://github.com/user-attachments/assets/d30924c7-5222-42ae-8f67-807ac5d74762)
+
+- Creating a CNAME record with proxy enabled:
+![image](https://github.com/user-attachments/assets/e136102f-10be-4cf3-bd65-dc347fbbd1e1)
+
+
 ## Requirements
 
 - Alfred Powerpack
