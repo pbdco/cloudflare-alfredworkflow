@@ -19,7 +19,7 @@ An [Alfred](https://alfred.app/) workflow to quickly create and delete DNS recor
 
 ## Installation
 
-1. Download the latest `Cloudflare.alfredworkflow` from the [Releases](../../releases) page. Direct link to latest version: [Cloudflare Alfred Workflow Download](https://github.com/pbdco/cloudflare-alfredworkflow/releases/latest/download/Cloudflare.alfredworkflow)
+1. Download the latest `Cloudflare.alfredworkflow` from the [Releases](../../releases) page: [Cloudflare Alfred Workflow Download](https://github.com/pbdco/cloudflare-alfredworkflow/releases/latest/download/Cloudflare.alfredworkflow)
 2. Double-click the downloaded file to install it in Alfred
 3. Set your Cloudflare API Token in the workflow environment variables:
    - Open Alfred Preferences
